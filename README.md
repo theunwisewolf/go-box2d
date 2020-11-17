@@ -1,22 +1,18 @@
-# Box2D.go ![](https://travis-ci.org/ByteArena/box2d.svg?branch=master)
+# Box2D.go
 
 ## What is this ?
+Original port - https://github.com/ByteArena/box2d
+
+*I maintain this port because the original port has some bugs and no one seems to be maintaining it.*
+*Pull Requests are welcome*
 
 This is Go a port of Box2D (https://github.com/erincatto/Box2D), a 2D physics engine for games written in C++ by Erin Catto.
 
 The port is complete and based on the latest Box2D commit as of 2017-09-20 (https://github.com/erincatto/Box2D/commit/f655c603ba9d83f07fc566d38d2654ba35739102)
 
-## Who did this ?
-
-The ByteArena team did. Erin Catto, the author of the original software, was not involved in the port.
-
-https://s3.eu-central-1.amazonaws.com/bytearena-public/ba-prod-twitter.mp4
-
 ## Documentation
 
-We kept the source code as close to the C++ as we possibly could. So the documentation you'll find on Box2D is relevant.
-
-https://box2d.org/documentation/
+http://box2d.org/manual.pdf
 
 ## API changes
 
@@ -44,4 +40,4 @@ The original Box2D is developed by Erin Catto, and has the zlib license. Thank y
 
 ## License of this port (Go)
 
-Box2D.go is developed by ByteArena (https://github.com/bytearena), and has the zlib license. While the zlib license does not require acknowledgement, we encourage you to give credit to Box2D.go in your product.
+zlib
