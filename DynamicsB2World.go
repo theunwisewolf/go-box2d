@@ -51,6 +51,8 @@ type B2World struct {
 	M_stepComplete bool
 
 	M_profile B2Profile
+
+	M_allocator B2CustomAllocator
 }
 
 func (world B2World) GetBodyList() *B2Body {
@@ -145,6 +147,7 @@ func MakeB2World(gravity B2Vec2) B2World {
 	world.M_inv_dt0 = 0.0
 
 	world.M_contactManager = MakeB2ContactManager()
+	world.M_allocator = MakeB2CustomAllocator()
 
 	return world
 }
@@ -439,6 +442,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 		world.M_bodyCount,
 		world.M_contactManager.M_contactCount,
 		world.M_jointCount,
+		&world.M_allocator,
 		world.M_contactManager.M_contactListener,
 	)
 
@@ -607,7 +611,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 // Find TOI contacts and solve them.
 func (world *B2World) SolveTOI(step B2TimeStep) {
 
-	island := MakeB2Island(2*B2_maxTOIContacts, B2_maxTOIContacts, 0, world.M_contactManager.M_contactListener)
+	island := MakeB2Island(2*B2_maxTOIContacts, B2_maxTOIContacts, 0, &world.M_allocator, world.M_contactManager.M_contactListener)
 
 	if world.M_stepComplete {
 		for b := world.M_bodyList; b != nil; b = b.M_next {
@@ -1269,7 +1273,7 @@ func (world *B2World) Dump() {
 		return
 	}
 
-	fmt.Print(fmt.Printf("b2Vec2 g(%.15f, %.15f);\n", world.M_gravity.X, world.M_gravity.Y))
+	fmt.Print(fmt.Printf("b2Vec2 g(%.15lef, %.15lef);\n", world.M_gravity.X, world.M_gravity.Y))
 	fmt.Print("m_world.SetGravity(g);\n")
 
 	fmt.Print(fmt.Printf("b2Body** bodies = (b2Body**)b2Alloc(%d * sizeof(b2Body*));\n", world.M_bodyCount))

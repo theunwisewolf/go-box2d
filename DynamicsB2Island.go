@@ -175,8 +175,7 @@ This might be faster than computing sin+cos.
 However, we can compute sin+cos of the same angle fast.
 */
 
-func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, listener B2ContactListenerInterface) B2Island {
-
+func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, allocator *B2CustomAllocator, listener B2ContactListenerInterface) B2Island {
 	island := B2Island{}
 
 	island.M_bodyCapacity = bodyCapacity
@@ -188,12 +187,12 @@ func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, list
 
 	island.M_listener = listener
 
-	island.M_bodies = make([]*B2Body, bodyCapacity)
-	island.M_contacts = make([]B2ContactInterface, contactCapacity)
-	island.M_joints = make([]B2JointInterface, jointCapacity)
+	island.M_bodies = *allocator.AllocateBodies(bodyCapacity)        // make([]*B2Body, bodyCapacity)
+	island.M_contacts = *allocator.AllocateContacts(contactCapacity) // make([]B2ContactInterface, contactCapacity)
+	island.M_joints = *allocator.AllocateJoints(jointCapacity)       // make([]B2JointInterface, jointCapacity)
 
-	island.M_velocities = make([]B2Velocity, bodyCapacity)
-	island.M_positions = make([]B2Position, bodyCapacity)
+	island.M_velocities = allocator.AllocateVelocities(bodyCapacity) // make([]B2Velocity, bodyCapacity)
+	island.M_positions = allocator.AllocatePositions(bodyCapacity)   // make([]B2Position, bodyCapacity)
 
 	return island
 }
